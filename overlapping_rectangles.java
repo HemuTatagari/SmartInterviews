@@ -1,3 +1,44 @@
+/*
+
+Given 2 rectangles parallel to coordinate axes, find the area covered by them.
+
+Input Format
+
+First line of input contains T - number of test cases. Its followed by 2T lines. First line of each test case contains 4 integers - xbl, ybl, xtr, ytr - the bottom-left and top-right coordinates of rectangle-1. The second line of each test case contains 4 integers - xbl, ybl, xtr, ytr - the bottom-left and top-right coordinates of rectangle-2.
+
+Constraints
+
+1 <= T <= 10000
+-106 < x,y <= 106
+(xbl, ybl) < (xtr, ytr)
+
+Output Format
+
+For each test case, print the area covered by the 2 rectangles, separated by newline.
+
+Sample Input 0
+
+4
+2 5 4 6
+1 2 5 4
+-4 -3 -2 5
+-3 -5 1 3
+1 0 3 5
+2 3 5 8
+-2 2 4 4
+-3 1 5 5
+Sample Output 0
+
+10
+42
+23
+32
+Explanation 0
+
+Self Explanatory
+
+*/
+
 import java.io.*;
 import java.util.*;
 
