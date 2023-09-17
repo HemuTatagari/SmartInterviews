@@ -52,39 +52,33 @@ public class Solution {
     public static void main(String[] args) {
         /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
         Scanner sc = new Scanner(System.in);
-        int T = sc.nextInt();
-        
-        while(T-- > 0) {
+        int t = sc.nextInt();
+        while(t > 0) {
+            int n =sc.nextInt();
+            int[] arr = new int[n];
+            for(int i=0;i<n;i++) arr[i]=sc.nextInt();
             
-            //input
-            int n = sc.nextInt();
-            int arr[] = new int[n];
+            // 0 <=> -1
             for(int i=0;i<n;i++) {
-                arr[i] = sc.nextInt();
-                if(arr[i] == 0) {
-                    arr[i] = -1;
-                }
+                if(arr[i] == 0) arr[i]=-1;
             }
             
-            //prefix sum array
-            int prefix_sum[] = new int[n];
-            prefix_sum[0] = arr[0];
-            for(int i=1;i<n;i++) {
-                prefix_sum[i] = prefix_sum[i-1]+arr[i];
-            }
+            //prefix sum
+            for(int i=1;i<n;i++) arr[i]+=arr[i-1];
             
-            //counting using HashMap
-            int validCount = 0;
+            int count =0;
             HashMap<Integer,Integer> map = new HashMap<>();
             map.put(0,1);
-            
             for(int i=0;i<n;i++) {
-                map.put(prefix_sum[i],map.getOrDefault(prefix_sum[i],0)+1);
-                validCount+= map.get(prefix_sum[i])-1;
+                if(map.containsKey(arr[i])) {
+                    count+=map.get(arr[i]);
+                    map.put(arr[i],map.get(arr[i])+1);
+                }
+                else
+                    map.put(arr[i],1);
             }
-            
-            //output
-            System.out.println(validCount);
+            System.out.println(count);
+            t-=1;
         }
     }
 }
