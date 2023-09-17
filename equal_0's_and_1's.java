@@ -44,120 +44,46 @@ Self Explanatory
 // note :- used Fast I/O template
 
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-public class Main{
-    static class FastReader{
-        BufferedReader br;
-        StringTokenizer st;
-        public FastReader(){
-            br=new BufferedReader(new InputStreamReader(System.in));
-        }
-        String next(){
-            while(st==null || !st.hasMoreTokens()){
-                try {
-                    st=new StringTokenizer(br.readLine());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-            return st.nextToken();
-        }
-        int nextInt(){
-            return Integer.parseInt(next());
-        }
-        long nextLong(){
-            return Long.parseLong(next());
-        }
-        double nextDouble(){
-            return Double.parseDouble(next());
-        }
-        String nextLine(){
-            String str="";
-            try {
-                str=br.readLine().trim();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return str;
-        }
-    }
-    static class FastWriter {
-        private final BufferedWriter bw;
+public class Solution {
 
-        public FastWriter() {
-            this.bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        }
-
-        public void print(Object object) throws IOException {
-            bw.append("" + object);
-        }
-
-        public void println(Object object) throws IOException {
-            print(object);
-            bw.append("\n");
-        }
-
-        public void close() throws IOException {
-            bw.close();
-        }
-    }
     public static void main(String[] args) {
-        try {
-            FastReader in=new FastReader();
-            FastWriter out = new FastWriter();
-            int testCases=in.nextInt();
-            while(testCases-- > 0){
-                // write code here
-                
-                int n = in.nextInt();
-                int arr[] = new int[n];
-                
-                for(int i=0;i<n;i++) {
-                    if(in.nextInt() == 0) {
-                        arr[i] = -1;
-                    }
-                    else {
-                        arr[i] = 1;
-                    }
-                    
-                }
-                
-                int prfx[] = new int[n];
-                prfx[0] = arr[0];
-                
-                for(int i=1;i<n;i++) {
-                    prfx[i] = prfx[i-1]+arr[i];
-                }
-                
-                HashMap<Integer,Integer> map = new HashMap<>();
-                int res = 0;
-                for(int i=0;i<n;i++) {
-                    if(prfx[i] == 0) {
-                        res = Math.max(res,i+1);
-                        continue;
-                    }
-                    
-                    if(map.containsKey(prfx[i])) {
-                        res = Math.max(res,i-map.get(prfx[i]));
-                    }
-                    else {
-                        map.put(prfx[i],i);
-                    }
-                    
-                    
-                    
-                }
-                
-                System.out.println(res);
-                
-                
-                
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        while(t > 0) {
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+            for(int i=0;i<n;i++) arr[i]=sc.nextInt();
+            
+            //code
+            
+            //replacing 0 with -1 =====> [0 => -1]
+            for(int i=0;i<n;i++) {
+                if(arr[i] == 0) arr[i]=-1;
             }
-            out.close();
-        } catch (Exception e) {
-            return;
+            
+            //prefix sum array
+            for(int i=1;i<n;i++) {
+                arr[i]+=arr[i-1];
+            }
+            
+            //calculating maxSubarray with equal 0s and 1s
+            int maxLength = 0;
+            HashMap<Integer,Integer> map = new HashMap<>();
+            map.put(0,-1);
+            for(int i=0;i<n;i++){
+                if(map.containsKey(arr[i])) {
+                    maxLength = Math.max(maxLength, i-map.get(arr[i]));
+                }
+                else {
+                    map.put(arr[i],i);
+                }
+            }
+            System.out.println(maxLength);
+            t-=1;
         }
     }
 }
