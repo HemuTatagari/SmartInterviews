@@ -56,101 +56,34 @@ public class Solution {
     public static void main(String[] args) {
         /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
         Scanner sc = new Scanner(System.in);
-        
-        int T = sc.nextInt();
-        while(T-- > 0) {
-            int n= sc.nextInt();
+        int t = sc.nextInt();
+        while(t > 0) {
+            int n = sc.nextInt();
             int[] arr = new int[n];
+            for(int i=0;i<n;i++) arr[i] = sc.nextInt();
+            
+            //code
+            int maxxDuration = -1, maxxProfit = 0;
             for(int i=0;i<n;i++) {
-                arr[i] = sc.nextInt();
-            }
-            
-            int[] sorted_arr = new int[n];
-            int[] sorted_index = new int[n];
-            
-            for(int i=0;i<n;i++) {
-                sorted_arr[i] = arr[i];
-                sorted_index[i] = i;
-            }
-            
-            quickSort(sorted_arr,sorted_index,0,n-1);
-            
-            //to get right maxx array
-            int[] right_max = new int[n];
-            int[] stack = new int[n];
-            
-            int sortIndex = 0, mainIndex = n-1;
-            while(sortIndex < n) {
-                while(mainIndex >= 0 && arr[mainIndex]<=sorted_arr[sortIndex] && mainIndex > sorted_index[sortIndex]) {
-                    mainIndex--;
-                }
-                
-                if(mainIndex >= 0 && mainIndex > sorted_index[sortIndex]) {
-                    right_max[sorted_index[sortIndex]] = mainIndex;
-                }
-                sortIndex++;
-            }
-             
-            // to calculate maxxStock and maxxProfit
-            int max_profit = 0, max_duration = 0;
-            for(int i=0;i<n;i++) {
-                if(right_max[i]-i > max_duration) {
-                    max_profit = arr[right_max[i]] - arr[i];
-                    max_duration = right_max[i] - i;
-                }
-                else if(right_max[i]-i == max_duration) {
-                    max_profit = Math.max(max_profit, arr[right_max[i]] - arr[i]);
+                for(int j=n-1;j>i;j--) {
+                    if(arr[j] > arr[i]) {
+                        if(maxxDuration < j-i) {
+                            maxxDuration = j-i;
+                            maxxProfit = arr[j]-arr[i];
+                        }
+                        else if(maxxDuration== j-i) {
+                            if(maxxProfit < arr[j]-arr[i]) {
+                                maxxProfit = arr[j]-arr[i];
+                            }
+                        }
+                        break;
+                    }
                 }
             }
-            
-            // output
-            if(max_profit == 0) {
-                System.out.println(-1);
-            }
-            else {
-                System.out.println(max_duration+" "+max_profit);
-            }
+            if(maxxProfit == 0) System.out.println("-1");
+            else
+                System.out.println(maxxDuration+" "+maxxProfit);
+            t--;
         }
-    }
-    
-    public static void quickSort(int a[], int[] s, int start, int end)  
-    {  
-        if (start < end)  
-        {  
-            int p = partition(a, s, start, end);   
-            quickSort(a, s, start, p - 1);  
-            quickSort(a, s,  p + 1, end);  
-        }  
-    }  
-    
-    public static int partition (int a[],int[] s, int start, int end)  
-    {  
-        int pivot = a[end];   
-        int i = (start - 1);  
-  
-        for (int j = start; j <= end - 1; j++)  
-        {  
-          
-            if (a[j] < pivot)  
-            {  
-                i++;  
-                
-                swap(a,i,j); //sorted array swapping
-                swap(s,i,j); // sorted index swapping
-            }  
-        }  
-         
-        swap(a,i+1,end); //sorted array swapping
-        swap(s,i+1,end); // sorted index swapping
-        
-        return (i + 1);  
-    } 
-    
-    public static void swap(int[] arr,int i, int j) {
-        int temp = arr[i];
-        arr[i] = arr[j];
-        arr[j] = temp;
-        
-        return;
     }
 }
